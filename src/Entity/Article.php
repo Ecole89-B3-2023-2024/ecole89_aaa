@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\ArticleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\ArticleRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 class Article
@@ -15,12 +17,19 @@ class Article
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['article'])]
+    #[Assert\NotBlank(message:"le titre doit etre renseigné")]
     private ?string $titre = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['article'])]
+    #[Assert\NotBlank(message:"le titre doit etre renseigné")]
+
     private ?string $contenu = null;
 
     #[ORM\ManyToOne(inversedBy: 'articles')]
+    #[Groups(['article'])]
+
     private ?User $auteur = null;
 
     public function getId(): ?int
